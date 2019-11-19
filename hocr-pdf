@@ -124,7 +124,7 @@ def polyval(poly, x):
 # http://www.angelfire.com/pr/pgpf/if.html, which says:
 # 'Invisible font' is unrestricted freeware. Enjoy, Improve, Distribute freely
 def load_invisible_font():
-    pdfmetrics.registerFont(TTFont('helvetica', 'Helvetica.ttf'))
+    pdfmetrics.registerFont(TTFont('helvetica', os.path.dirname(os.path.realpath(__file__)) + '/Helvetica.ttf'))
 
 
 if __name__ == "__main__":
