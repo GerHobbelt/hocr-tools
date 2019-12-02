@@ -99,7 +99,7 @@ def add_text_layer(pdf, image, height, dpi):
             rawtext = word.text_content().strip()
             if rawtext == '':
                 continue
-            font_width = pdf.stringWidth(rawtext, 'helvetica', 8)
+            font_width = pdf.stringWidth(rawtext, 'karla', 8)
             if font_width <= 0:
                 continue
             box = p1.search(word.attrib['title']).group(1).split()
@@ -108,7 +108,7 @@ def add_text_layer(pdf, image, height, dpi):
                         (box[0] + box[2]) / 2 - linebox[0]) + linebox[3]
             text = pdf.beginText()
             text.setTextRenderMode(3)  # double invisible
-            text.setFont('helvetica', 8)
+            text.setFont('karla', 8)
             text.setTextOrigin(box[0] * 72 / dpi, height - b * 72 / dpi)
             box_width = (box[2] - box[0]) * 72 / dpi
             text.setHorizScale(100.0 * box_width / font_width)
@@ -124,7 +124,7 @@ def polyval(poly, x):
 # http://www.angelfire.com/pr/pgpf/if.html, which says:
 # 'Invisible font' is unrestricted freeware. Enjoy, Improve, Distribute freely
 def load_invisible_font():
-    pdfmetrics.registerFont(TTFont('helvetica', os.path.dirname(os.path.realpath(__file__)) + '/Helvetica.ttf'))
+    pdfmetrics.registerFont(TTFont('karla', os.path.dirname(os.path.realpath(__file__)) + '/karla.ttf'))
 
 
 if __name__ == "__main__":
