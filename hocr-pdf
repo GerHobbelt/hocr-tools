@@ -59,14 +59,10 @@ def export_pdf(playground, default_dpi, savefile=False):
     pdf = Canvas(savefile if savefile else StdoutWrapper(), pageCompression=1)
     pdf.setCreator('Raven Cloud')
     pdf.setTitle(os.path.basename(playground))
-    dpi = default_dpi
     for image in images:
         im = Image.open(image)
         w, h = im.size
-        try:
-            dpi = im.info['dpi'][0]
-        except KeyError:
-            pass
+        dpi = get_file_dpi(im)
         width = w * 72 / dpi
         height = h * 72 / dpi
         pdf.setPageSize((width, height))
@@ -75,6 +71,39 @@ def export_pdf(playground, default_dpi, savefile=False):
         pdf.showPage()
     pdf.save()
 
+def get_file_dpi(image):
+    try:
+        dpi = image.info['dpi'][0]
+    except KeyError:
+        dpi = 1
+
+    # a dpi lower than 50, we can assume is an error
+    if dpi < 50:
+        dpi = guess_file_dpi(image)
+
+    return dpi
+
+def guess_file_dpi(image):
+    w, h = image.size
+    width = min(w, h)
+    dpi = width / 8.5
+    real_dpi = dpi
+
+    # Round to nearest expected value
+    if dpi < 250:
+        dpi = 200
+    elif dpi < 350:
+        dpi = 300
+    elif dpi < 425:
+        dpi = 400
+    elif dpi < 500:
+        dpi = 450
+    else:
+        dpi = 600
+
+    print(real_dpi, dpi, file=sys.stderr)
+
+    return dpi
 
 def add_text_layer(pdf, image, height, dpi):
     """Draw an invisible text layer for OCR data"""
