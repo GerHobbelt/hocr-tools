@@ -63,6 +63,10 @@ def export_pdf(playground, default_dpi, savefile=False):
     for image in images:
         im = Image.open(image)
         w, h = im.size
+        try:
+            dpi = im.info['dpi'][0]
+        except KeyError:
+            pass
         width = w * 72 / dpi
         height = h * 72 / dpi
         pdf.setPageSize((width, height))
