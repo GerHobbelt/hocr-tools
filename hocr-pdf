@@ -164,7 +164,7 @@ AAEAAAAPAIAAAwBwR0RFRgARAJ0AADV0AAAAFkdQT1MDgC91AAA1jAAABABHU1VC3ELqOwAAOYwAAABc
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
-        description="Create a searchable PDF from a pile of hOCR and JPEG")
+        description="Create a searchable PDF from a pile of hOCR and JPEG/TIFF")
     parser.add_argument(
         "img",
         help=("The image to be converted JPG, JPEG or TIFF")
